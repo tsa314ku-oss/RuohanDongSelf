@@ -53,3 +53,14 @@ body:not([data-page="home"]) .full-section:before{content:none}
 /* English and Chinese motto sit together and wrap naturally on smaller screens. */
 .footer-name .footer-motto{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:18px;row-gap:8px;line-height:1.7}
 .footer-name .footer-motto>span{display:inline;margin:0;font-size:11px;letter-spacing:1px;color:var(--gold)}
+
+/* Keep idle pages still and reduce painting while browsing long galleries. */
+html{scroll-behavior:auto}
+.marquee-track{animation-play-state:paused;will-change:auto}
+.star{animation-play-state:paused}
+body:not(.motion-paused) .marquee-track,body:not(.motion-paused) .star{animation-play-state:running}
+body.page-hidden .marquee-track,body.page-hidden .star{animation-play-state:paused!important}
+.photo-gallery figure,.resume-block{content-visibility:auto;contain-intrinsic-size:auto 450px}
+.photo-link img{background:#dbe5ec;transition:none}
+.photo-link:hover img{transform:none}
+@media(hover:none){.section-nav button:hover,.button:hover{transform:none}}
