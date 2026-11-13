@@ -32,7 +32,26 @@ document.addEventListener('click',async e=>{const detail=e.target.closest('[data
 let toastTimer;function toast(message){const t=document.querySelector('.toast');t.textContent=message;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2800)}
 
 var sectionObserver;var activePhotos=[];var photoIndex=0;
+function setupHeroImage(){
+ const picture=main.querySelector('.home-photo');
+ if(!picture)return;
+ const image=picture.querySelector('img');
+ const mobile=window.matchMedia('(max-width:720px)').matches;
+ const candidates=mobile?['hero-hd-mobile-640.jpg','hero-hd-mobile-1080.jpg','hero-hd-1600.jpg']:['hero-hd-2560.jpg','hero-hd-1600.jpg'];
+ const attempted=new Set([(image.currentSrc||image.src).split('/').pop()]);
+ const recover=()=>{
+  image.style.opacity='0';
+  picture.querySelectorAll('source').forEach(source=>source.remove());
+  image.removeAttribute('srcset');
+  const next=candidates.find(source=>!attempted.has(source));
+  if(next){attempted.add(next);image.src=next;}
+ };
+ image.addEventListener('error',recover);
+ image.addEventListener('load',()=>{image.style.opacity='1';});
+ if(image.complete&&!image.naturalWidth)recover();
+}
 function enhancePage(page){
+ if(page==='home')setupHeroImage();
  if(sectionObserver)sectionObserver.disconnect();
  const headings=[...main.querySelectorAll('.full-section')];
  if(headings.length>1){const nav=document.createElement('nav');nav.className='section-nav';nav.style.setProperty('--tab-count',headings.length);nav.setAttribute('aria-label','On this page');const labels=page==='activities'?['Art Troupe','Student Union','Campus Singer','Photo Journal','Introduction']:[];nav.innerHTML=headings.map((section,i)=>{section.id='section-'+i;const h=section.querySelector('h2');const title=h?h.textContent:'Overview';return `<button data-jump="section-${i}" class="${i===0?'current':''}" title="${escapeHTML(title)}" ${i===0?'aria-current="location"':''}><span class="tab-number" aria-hidden="true">${String(i+1).padStart(2,'0')}</span><span class="tab-title">${escapeHTML(labels[i]||title)}</span><span class="tab-arrow" aria-hidden="true">↗</span></button>`}).join('');main.querySelector('.page-heading').after(nav);

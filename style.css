@@ -49,3 +49,7 @@ body:not([data-page="home"]) .full-section:before{content:none}
 .resume-block h3{font:600 21px/1.45 var(--serif);margin:24px 0 12px}
 .resume-block p{font-size:14px;line-height:1.9}
 @media(max-width:720px){.resume-block{padding:26px 0}.resume-block h2{font-size:23px;margin-bottom:20px}.resume-block h3{font-size:20px}.resume-block p{font-size:13px}}
+
+/* English and Chinese motto sit together and wrap naturally on smaller screens. */
+.footer-name .footer-motto{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:18px;row-gap:8px;line-height:1.7}
+.footer-name .footer-motto>span{display:inline;margin:0;font-size:11px;letter-spacing:1px;color:var(--gold)}
