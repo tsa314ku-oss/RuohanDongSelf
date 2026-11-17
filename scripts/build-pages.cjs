@@ -5,7 +5,7 @@ const root=path.resolve(__dirname,'..');
 const script=fs.readFileSync(path.join(root,'app.js'),'utf8');
 const prefix=script.slice(0,script.indexOf('function route(){'));
 const {pageFiles,pageTitles,pageParents,renderPage,originalText}=vm.runInNewContext(prefix+';({pageFiles,pageTitles,pageParents,renderPage,originalText})',{document:{querySelector:()=>({})}});
-const version='20261118-12pages';
+const version='20261118-navigation-portrait';
 let shell=fs.readFileSync(path.join(root,'index.html'),'utf8');
 shell=shell.replace(/<link rel="preload" as="image"[^>]*>/g,'').replace(/<link rel="canonical"[^>]*>/g,'');
 shell=shell.replace(/<nav class="site-map"[\s\S]*?<\/nav>/g,'');
